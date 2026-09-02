@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Knight vs Zombies — Popcade</title>
+<meta name="description" content="Defend the castle from the top of the wall. The horde can pile up forever — swipe, upgrade, survive." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="site-header game-header">
+  <a class="brand" href="../../index.html">POP<span>CADE</span></a>
+  <div class="hud">
+    <div class="hud-item"><span class="hud-label">Kills</span><span id="score">0</span></div>
+    <div class="hud-item"><span class="hud-label">Horde</span><span id="pile">0</span></div>
+    <div class="hud-item"><span class="hud-label">Gold</span><span id="gold">0</span></div>
+  </div>
+  <button class="shop-btn" id="shop-btn" aria-haspopup="dialog" aria-controls="shop-panel">
+    🛒 <span>Shop</span>
+  </button>
+</header>
+
+<main class="game-wrap">
+  <div class="stage" id="stage">
+    <canvas id="game-canvas"></canvas>
+
+    <div class="overlay" id="start-overlay">
+      <h1>Knight vs Zombies</h1>
+      <p>Hold the castle from up top. The horde piles up against the wall below — endlessly, there's no limit — so swipe often and spend your gold on upgrades.</p>
+      <button class="btn" id="start-btn">Start game</button>
+    </div>
+  </div>
+
+  <button class="swipe-btn" id="swipe-btn" aria-label="Swipe sword">
+    <span>SWIPE</span>
+    <svg class="cooldown-ring" viewBox="0 0 44 44" aria-hidden="true">
+      <circle cx="22" cy="22" r="19" />
+    </svg>
+  </button>
+
+  <p class="instructions">Tap the button, click the stage, or press <kbd>Space</kbd> to swing your sword.</p>
+</main>
+
+<div class="shop-backdrop hidden" id="shop-backdrop">
+  <div class="shop-panel" id="shop-panel" role="dialog" aria-label="Shop" aria-modal="true">
+    <div class="shop-header">
+      <h2>Shop</h2>
+      <button class="shop-close" id="shop-close" aria-label="Close shop">✕</button>
+    </div>
+    <p class="shop-gold">Gold: <span id="shop-gold">0</span></p>
+
+    <div class="shop-item">
+      <div class="shop-item-info">
+        <h3>Sharper Blade</h3>
+        <p>+1 damage per swing. Fewer swipes to drop a zombie.</p>
+        <span class="shop-level">Level <span id="blade-level">0</span></span>
+      </div>
+      <button class="shop-buy" id="buy-blade">Buy — <span id="blade-cost">15</span>g</button>
+    </div>
+
+    <div class="shop-item">
+      <div class="shop-item-info">
+        <h3>Quick Hands</h3>
+        <p>Shorter cooldown between swipes.</p>
+        <span class="shop-level">Level <span id="hands-level">0</span></span>
+      </div>
+      <button class="shop-buy" id="buy-hands">Buy — <span id="hands-cost">12</span>g</button>
+    </div>
+
+    <div class="shop-item">
+      <div class="shop-item-info">
+        <h3>Cleave</h3>
+        <p>Each swing also hits the zombie behind the front one.</p>
+        <span class="shop-level">Level <span id="cleave-level">0</span></span>
+      </div>
+      <button class="shop-buy" id="buy-cleave">Buy — <span id="cleave-cost">25</span>g</button>
+    </div>
+  </div>
+</div>
+
+<script src="game.js"></script>
+</body>
+</html>
