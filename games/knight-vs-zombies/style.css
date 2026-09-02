@@ -1,0 +1,232 @@
+.game-header {
+  background: var(--bg);
+  border-bottom: 1px solid rgba(245, 243, 237, 0.08);
+}
+
+.hud {
+  display: flex;
+  gap: 1.75rem;
+}
+
+.hud-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.hud-label {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+  margin-bottom: 0.3rem;
+}
+
+#score {
+  color: var(--yellow);
+}
+#pile {
+  color: var(--pink);
+}
+#best {
+  color: var(--teal);
+}
+
+.game-wrap {
+  padding: clamp(1rem, 3vw, 2rem);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(180deg, #191b3a, #14152b 70%);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(245, 243, 237, 0.08);
+  image-rendering: pixelated;
+}
+
+/* screen shake, triggered by JS toggling this class on a successful hit */
+@keyframes stage-shake {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-3px, 2px); }
+  40% { transform: translate(3px, -2px); }
+  60% { transform: translate(-2px, 1px); }
+  80% { transform: translate(2px, -1px); }
+  100% { transform: translate(0, 0); }
+}
+
+.stage.shake {
+  animation: stage-shake 180ms ease-in-out;
+}
+
+@keyframes overrun-pulse {
+  0%, 100% { box-shadow: inset 0 0 0 0 rgba(255, 77, 109, 0); }
+  50% { box-shadow: inset 0 0 40px 6px rgba(255, 77, 109, 0.55); }
+}
+
+.stage.danger {
+  animation: overrun-pulse 900ms ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage.shake,
+  .stage.danger {
+    animation: none;
+  }
+}
+
+#game-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  touch-action: none;
+  image-rendering: pixelated;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  background: rgba(20, 21, 43, 0.88);
+  backdrop-filter: blur(2px);
+}
+
+.overlay.hidden {
+  display: none;
+}
+
+.overlay h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+  margin: 0 0 0.75rem;
+}
+
+.overlay p {
+  color: var(--text-dim);
+  max-width: 42ch;
+  margin: 0 0 1.75rem;
+}
+
+.btn {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1rem;
+  background: var(--pink);
+  color: var(--bg);
+  border: none;
+  padding: 0.85rem 2rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.btn:hover,
+.btn:focus-visible {
+  transform: scale(1.04);
+}
+
+.btn-ghost {
+  margin-top: 0.9rem;
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 0.9rem;
+  border-bottom: 1px solid transparent;
+}
+
+.btn-ghost:hover {
+  border-bottom-color: var(--text-dim);
+}
+
+/* ---------- swipe button ---------- */
+.swipe-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin: 1.25rem auto 0;
+  width: 100%;
+  max-width: 260px;
+  padding: 1rem 1.5rem;
+  border: none;
+  border-radius: 999px;
+  background: var(--pink);
+  color: var(--bg);
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.08s ease;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.swipe-btn:active {
+  transform: scale(0.96);
+}
+
+.swipe-btn:disabled {
+  background: rgba(255, 77, 109, 0.35);
+  cursor: default;
+}
+
+@keyframes swipe-ready-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 77, 109, 0.45); }
+  50% { box-shadow: 0 0 0 8px rgba(255, 77, 109, 0); }
+}
+
+.swipe-btn:not(:disabled) {
+  animation: swipe-ready-glow 1.4s ease-out infinite;
+}
+
+#pile.danger {
+  color: #fff;
+  text-shadow: 0 0 8px rgba(255, 77, 109, 0.9);
+}
+
+.cooldown-ring {
+  width: 22px;
+  height: 22px;
+  transform: rotate(-90deg);
+  flex-shrink: 0;
+}
+
+.cooldown-ring circle {
+  fill: none;
+  stroke: var(--bg);
+  stroke-width: 4;
+  stroke-dasharray: 119.4; /* 2 * pi * r(19) */
+  stroke-dashoffset: 0;
+  opacity: 0.55;
+  transition: stroke-dashoffset 0.05s linear;
+}
+
+.instructions {
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
+
+.instructions kbd {
+  font-family: var(--font-body);
+  background: var(--surface);
+  border: 1px solid rgba(245, 243, 237, 0.15);
+  border-radius: 4px;
+  padding: 0.1rem 0.4rem;
+  font-size: 0.85rem;
+}
